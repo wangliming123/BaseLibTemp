@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.orhanobut.logger.Logger
 import com.twtimes.baselib.common.BaseViewModel
+import com.twtimes.baselib.utils.ActivityUtils
 
 abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
     lateinit var mViewModel: VM
@@ -38,10 +39,12 @@ abstract class BaseVMActivity<VM : BaseViewModel> : BaseActivity() {
 //        mViewModel = ViewModelProviders.of(this).get(providerVMClass)
         mViewModel = ViewModelProvider(this).get(providerVMClass)
         lifecycle.addObserver(mViewModel)
+        ActivityUtils.addViewModel(mViewModel)
     }
 
     override fun onDestroy() {
         lifecycle.removeObserver(mViewModel)
+        ActivityUtils.removeViewModel(mViewModel)
         super.onDestroy()
     }
 
